@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>   
+    <record id="bureau_ordre_action_form" model="ir.actions.act_window">
+        <field name="name">Bureau ordre</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bureau.ordre.document.depart</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="ordre_main_menu"
+            name="Bureau ordre"/>
+    
+    <menuitem id="bureau_ordre_depart_menu"
+            name="Registre Depart"
+            parent="ordre_main_menu"
+            action="bureau_ordre_action_form"/>
+
+    <record id="bureau_ordre_depart_view_form" model="ir.ui.view">
+        <field name="name">bureau ordre registre Form</field>
+        <field name="model">bureau.ordre.document.depart</field>
+        <field name="arch" type="xml">
+            <form> 
+                    <group>
+                        
+                    </group>
+                </form>
+        </field>
+    </record>
+    <!--Tree(list) View-->
+    <record id="bureau_ordre_depart_view_list" model="ir.ui.view">
+        <field name="name">bureau ordre registre list</field>
+        <field name="model">bureau.ordre.document.depart</field>
+        <field name="arch" type="xml">
+            <tree>
+                  
+            </tree>
+        </field>
+    </record>
+    
+</odoo>
+
