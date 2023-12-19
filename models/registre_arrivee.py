@@ -1,9 +1,8 @@
-# models.py
 from odoo import models, fields
 
-class BureauOrdreDocument(models.Model):
+class BureauOrdreDocumentArrivee(models.Model):
     _name = 'bureau.ordre.document.arrivee'
-    _description = 'Gestion des Documents au Bureau d\'Ordre'
+    _description = 'Gestion des Documents Arrivées au Bureau d\'Ordre'
 
     name = fields.Char(string='Numéro de Document', required=True)
     date_reception = fields.Date(string='Date de Réception', default=fields.Date.today())

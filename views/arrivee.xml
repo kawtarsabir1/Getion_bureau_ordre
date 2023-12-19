@@ -3,7 +3,7 @@
     <record id="bureau_ordre_action_form" model="ir.actions.act_window">
         <field name="name">Bureau ordre</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">bureau.ordre.document</field>
+        <field name="res_model">bureau.ordre.document.arrivee</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -17,7 +17,7 @@
 
     <record id="bureau_ordre_view_form" model="ir.ui.view">
         <field name="name">bureau ordre registre Form</field>
-        <field name="model">bureau.ordre.document</field>
+        <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
             <form> 
                     <group>
@@ -31,13 +31,13 @@
     <!--Tree(list) View-->
     <record id="bureau_ordre_view_list" model="ir.ui.view">
         <field name="name">bureau ordre registre list</field>
-        <field name="model">bureau.ordre.document</field>
+        <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
-             <tree>
+            <tree>
                     <field name="name"/>
                     <field name="date_reception"/>
                     <field name="etat"/>
-             </tree>
+            </tree>
         </field>
     </record>
     
