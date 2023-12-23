@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>   
     <record id="bureau_ordre_action_form" model="ir.actions.act_window">
-        <field name="name">Bureau ordre</field>
+        <field name="name">Registre d'arrivée</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bureau.ordre.document.arrivee</field>
         <field name="view_mode">tree,form</field>
@@ -16,7 +16,7 @@
             action="bureau_ordre_action_form"/>
     
     <record id="bureau_ordre_view_form" model="ir.ui.view">
-        <field name="name">bureau ordre registre Form</field>
+        <field name="name">Registre Arrivée Form</field>
         <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
             <form>
@@ -65,7 +65,7 @@
 
     <!-- Tree(list) View -->
     <record id="bureau_ordre_view_list" model="ir.ui.view">
-        <field name="name">bureau ordre registre list</field>
+        <field name="name">Registre Arrivée list</field>
         <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
             <tree decoration-success="etat=='termine'" decoration-info="etat=='recu'" decoration-warning="etat=='en_cours'">
@@ -92,7 +92,7 @@
     </record>
 
     <record id="bureau_ordre_view_search" model="ir.ui.view">
-        <field name="name">bureau ordre registre search</field>
+        <field name="name">Registre Arrivée search</field>
         <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
             <search>

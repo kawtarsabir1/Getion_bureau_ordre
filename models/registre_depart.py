@@ -7,6 +7,7 @@ class BureauOrdreDocumentDepart(models.Model):
 
     destinataire = fields.Many2one('bureau.ordre.service', string='Destinataire', required=True)
     expéditeur = fields.Many2one('bureau.ordre.service', string='Expéditeur', required=True)
+    reference_destinataire = fields.Many2one('bureau.ordre.document.arrivee', string='Référence du destinataire', required=True)
 
     @api.model
     def _get_default_num_depart(self):
@@ -31,7 +32,7 @@ class BureauOrdreDocumentDepart(models.Model):
     objet_de_correspondance = fields.Char(string='Objet de correspondance', required=True)
     piece_jointe = fields.Integer(string='Nombre de pièces jointes', required=True)
     reponse = fields.Boolean(string='Réponse', required=False)
-    reference_destinataire= fields.Char(string='Référence du destinataire', required=True)
+    # reference_destinataire= fields.Char(string='Référence du destinataire', required=True)
 
     name = fields.Char(string='Nom', compute='_compute_name', store=True)
 

@@ -95,8 +95,11 @@
                 <field name="reponse" string="Réponse"/>
                 <field name="reference_destinataire" string="Référence du destinataire"/>
 
+                <!-- <filter string="state recu" name="filter_state_recu" domain="[('etat', '=', 'recu')]"/>
+                <filter string="state en cours" name="filter_state_en_cours" domain="[('etat', '=', 'en_cours')]"/>
+                <filter string="state terminé" name="filter_termine" domain="[('etat', '=', 'termine')]"/> -->
+
                 <group expand="0" string="Group By">
-                    <filter string="Numéro de départ" name="num_depart" context="{'group_by': 'num_depart'}"/>
                     <filter string="Date de départ" name="date_depart" context="{'group_by': 'date_depart'}"/>
                     <filter string="Destinataire" name="destinataire" context="{'group_by': 'destinataire'}"/>
                     <filter string="Réponse" name="reponse" context="{'group_by': 'reponse'}"/>
