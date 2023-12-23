@@ -24,9 +24,9 @@
                     <!-- <button name="action_en_traitment" string="passer au traitement" type="object"/>
                     <button name="action_finish" string="terminer" type="object" states="en_cours"/>
                     <button name="action_modifier" string="modifier" type="object" states="termine"/> -->
-                    <button name="action_en_traitment" string="passer au traitement" type="object"/>
-                    <button name="action_finish" string="terminer" type="object"/>
-                    <button name="action_modifier" string="modifier" type="object"/>
+                    <button name="action_en_traitment" string="passer au traitement" type="object" attrs="{'invisible': [('etat', '!=', 'recu')]}"/>
+                    <button name="action_finish" string="terminer" type="object" attrs="{'invisible': [('etat', '!=', 'en_cours')]}"/>
+                    <button name="action_modifier" string="modifier" type="object"  attrs="{'invisible': [('etat', '!=', 'termine')]}"/>
                     <!-- ne s'affiche que apre termine --><!-- not working -->
                     <field name="etat" widget="statusbar" nolabel="1" />
                 <!-- options="{'clickable':'1'}" states="en_cours"-->
@@ -54,9 +54,7 @@
                                 <field name="reference_expediteur" attrs="{'required': [('demande', '=', True)], 'invisible': [('demande', '=', False)]}"/>
                             </group>
                         </group>
-                        <field name="pdf_file" filename="your_filename.pdf" widget="pdf" attrs="{'invisible': [('etat', '!=', 'en_cours')], 'readonly': [('etat', '=', 'termine')]}" />
-                        <!-- <field name="pdf_file" filename="your_filename.pdf" widget="pdf" options="{'readonly': True}" attrs="{'invisible': [('etat', '!=','en_cours', 'termine')],'readonly': [('etat', '=', 'termine')}"/> -->
-                        
+                        <field name="pdf_file" filename="your_filename.pdf" widget="pdf" attrs="{'invisible': [('etat', '=', 'recu')], 'readonly': [('etat', '=', 'termine')]}" />
                     </group>
                 </sheet>
             </form>
