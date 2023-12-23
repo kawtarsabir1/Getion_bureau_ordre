@@ -1,7 +1,9 @@
 {
-'name':'Gestion_bureau_ordre',
-'data': [
-        'views/arrivee.xml','views/depart.xml'
-        
+'name':'Gestion bureau ordre',
+'data': 
+    [
+        'views/arrivee.xml',
+        'views/depart.xml',
+        'views/service.xml'
     ]
 }
