@@ -7,8 +7,18 @@ class BureauOrdreDocumentDepart(models.Model):
 
     destinataire = fields.Many2one('bureau.ordre.service', string='Destinataire', required=True)
     expéditeur = fields.Many2one('bureau.ordre.service', string='Expéditeur', required=True)
+    
     reference_destinataire = fields.Many2one('bureau.ordre.document.arrivee', string='Référence du destinataire', required=True)
+    # Use a related field to display the value from the related model
+    reference_expediteur = fields.Char(related='reference_destinataire.reference_expediteur', string='Référence de l\'expéditeur', readonly=True, store=True)
 
+    
+
+    @api.model
+    def create(self, values):
+        # Your custom logic for creating a new record
+        return super(BureauOrdreDocumentDepart, self).create(values)
+    
     @api.model
     def _get_default_num_depart(self):
         # Obtenez l'année actuelle

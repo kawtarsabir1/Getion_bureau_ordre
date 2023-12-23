@@ -55,8 +55,8 @@
                     </group>
                     <group>
                         <!-- Field "reference_destinataire" conditionally disabled -->
-                        <!-- <field name="reference_destinataire" attrs="{'readonly': [('reponse', '=', False)]}"/> -->
                         <field name="reference_destinataire" attrs="{'required': [('reponse', '=', True)], 'invisible': [('reponse', '=', False)]}"/>
+                        
                     </group>
                 </sheet>
             </form>

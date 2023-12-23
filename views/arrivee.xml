@@ -54,7 +54,10 @@
                                 <field name="reference_expediteur" attrs="{'required': [('demande', '=', True)], 'invisible': [('demande', '=', False)]}"/>
                             </group>
                         </group>
-                        <field name="pdf_file" filename="your_filename.pdf" widget="pdf" attrs="{'invisible': [('etat', '=', 'recu')], 'readonly': [('etat', '=', 'termine')]}" />
+                        <!-- <field name="pdf_file" filename="your_filename.pdf" widget="pdf" attrs="{'invisible': [('etat', '=', 'recu')], 'readonly': [('etat', '=', 'termine')]}" /> -->
+                        <group>
+                            <field name="pdf_file"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
