@@ -14,32 +14,105 @@
             name="Registre Arrivee"
             parent="ordre_main_menu"
             action="bureau_ordre_action_form"/>
-
+    
     <record id="bureau_ordre_view_form" model="ir.ui.view">
         <field name="name">bureau ordre registre Form</field>
         <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
-            <form> 
+            <form>
+                <header>
+                    <!-- <button name="action_en_traitment" string="passer au traitement" type="object"/>
+                    <button name="action_finish" string="terminer" type="object" states="en_cours"/>
+                    <button name="action_modifier" string="modifier" type="object" states="termine"/> -->
+                    <button name="action_en_traitment" string="passer au traitement" type="object"/>
+                    <button name="action_finish" string="terminer" type="object"/>
+                    <button name="action_modifier" string="modifier" type="object"/>
+                    <!-- ne s'affiche que apre termine --><!-- not working -->
+                    <field name="etat" widget="statusbar" nolabel="1" />
+                <!-- options="{'clickable':'1'}" states="en_cours"-->
+                </header>
+                <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="date_reception"/>
-                        <field name="etat"/>
+                        <group>
+                            <field name="num_arrivee"/>
+                            <field name="date_arrivee" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
+                        </group>
+                        <group>
+                            <field name="destinataire" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
+                            <field name="objet_de_correspondance" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
+                        </group>
+                        <group>
+                            <field name="piece_jointe" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
+                            <field name="expediteur" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
+                        </group>
+                        <group>
+                            <group>
+                            <!-- Field "demande" as a checkbox -->
+                                <field name="demande" widget="boolean_checkbox" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
+                            </group>
+                            <group>
+                                <field name="reference_expediteur" attrs="{'required': [('demande', '=', True)], 'invisible': [('demande', '=', False)]}"/>
+                            </group>
+                        </group>
+                        <field name="pdf_file" filename="your_filename.pdf" widget="pdf" attrs="{'invisible': [('etat', '!=', 'en_cours')], 'readonly': [('etat', '=', 'termine')]}" />
+                        <!-- <field name="pdf_file" filename="your_filename.pdf" widget="pdf" options="{'readonly': True}" attrs="{'invisible': [('etat', '!=','en_cours', 'termine')],'readonly': [('etat', '=', 'termine')}"/> -->
+                        
                     </group>
-                </form>
+                </sheet>
+            </form>
         </field>
     </record>
-    <!--Tree(list) View-->
+
+    <!-- Tree(list) View -->
     <record id="bureau_ordre_view_list" model="ir.ui.view">
         <field name="name">bureau ordre registre list</field>
         <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
-            <tree>
-                    <field name="name"/>
-                    <field name="date_reception"/>
-                    <field name="etat"/>
+            <tree decoration-success="etat=='termine'" decoration-info="etat=='recu'" decoration-warning="etat=='en_cours'">
+                <field name="num_arrivee"/>
+                <field name="date_arrivee"/>
+                <field name="destinataire"/>
+                <field name="objet_de_correspondance"/>
+                <field name="piece_jointe"/>
+                <field name="expediteur"/>
+                <field name="reference_expediteur"/>
+                <!-- not working -->
+                <field name="etat"
+                        decoration-success="etat=='termine'"
+                        decoration-info="etat=='recu'"
+                        decoration-warning="etat=='en_cours'"
+                        widget="badge"
+                        optional="show"
+                        />
+                <!-- not working -->
+                <field name="pdf_file" filename="your_filename.pdf" widget="pdf" options="{'readonly': True}" attrs="{'invisible': [('etat', '!=', 'en_cours'),('etat', '!=', 'termine')]}"/>
+
             </tree>
         </field>
     </record>
-    
+
+    <record id="bureau_ordre_view_search" model="ir.ui.view">
+        <field name="name">bureau ordre registre search</field>
+        <field name="model">bureau.ordre.document.arrivee</field>
+        <field name="arch" type="xml">
+            <search>
+            <field name="num_arrivee"/>
+            <field name="date_arrivee"/>
+            <field name="destinataire"/>
+            <field name="objet_de_correspondance"/>
+            <field name="piece_jointe"/>
+            <field name="expediteur"/>
+            <field name="reference_expediteur"/>
+            <filter string="state recu" name="filter_state_recu" domain="[('etat', '=', 'recu')]"/>
+            <filter string="state en cours" name="filter_state_en_cours" domain="[('etat', '=', 'en_cours')]"/>
+            <filter string="state terminé" name="filter_termine" domain="[('etat', '=', 'termine')]"/>
+            <group expand="0" string="Group By">
+                <filter string="Group by Date Arrivée" name="group_by_date_arrivee" context="{'group_by':'date_arrivee'}"/>
+            </group>
+            </search>
+        </field>
+    </record>
 </odoo>
+
+
 
