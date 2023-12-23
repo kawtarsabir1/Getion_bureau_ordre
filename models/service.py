@@ -2,9 +2,10 @@ from odoo import models, fields
 
 class BureauOrdreService(models.Model):
     _name = 'bureau.ordre.service'
-    _description = 'Service externe/interne'
+    _description = 'Bureau d\'Ordre - Service'
 
     nom = fields.Char(string='Nom du service', required=True)
+    image = fields.Binary(string='Image')
 
     # Ajoutez cette méthode pour spécifier comment Odoo doit afficher les enregistrements
     def name_get(self):

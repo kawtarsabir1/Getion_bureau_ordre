@@ -1,1 +1,1 @@
-from . import registre_arrivee,registre_depart,service
+from . import registre_arrivee,registre_depart,service,document

@@ -19,10 +19,16 @@
         <field name="model">bureau.ordre.service</field>
         <field name="arch" type="xml">
             <form>
-                <group>
-                    <!-- Champ "nom" -->
-                    <field name="nom"/>
-                </group>
+                <sheet>
+                    <header>
+                        <!-- Image field -->
+                        <field name="image" widget="image" options="{'size': (120, 120)}"/>
+                    </header>
+                    <group>
+                        <!-- Champ "nom" -->
+                        <field name="nom"/>
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
@@ -32,8 +38,23 @@
         <field name="model">bureau.ordre.service</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="image" widget="image" options="{'size': (50, 50)}"/>
                 <field name="nom"/>
             </tree>
+        </field>
+    </record>
+
+    <!--Search-->
+    <record id="bureau_ordre_service_view_search" model="ir.ui.view">
+        <field name="name">Service Search</field>
+        <field name="model">bureau.ordre.service</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="0" string="Group By">
+                    <filter string="Nom" name="nom" context="{'group_by': 'nom'}"/>
+                </group>
+                <field name="nom"/>
+            </search>
         </field>
     </record>
 </odoo>

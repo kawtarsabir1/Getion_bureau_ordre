@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>   
+    <!-- Action Window -->
     <record id="bureau_ordre_depart_action_form" model="ir.actions.act_window">
         <field name="name">Registre de Départ</field>
         <field name="type">ir.actions.act_window</field>
@@ -7,47 +8,62 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- Main Menu -->
     <menuitem id="ordre_main_menu" name="Bureau ordre"/>
-    
+
+    <!-- Submenu -->
     <menuitem id="bureau_ordre_depart_menu"
             name="Registre Depart"
             parent="ordre_main_menu"
             action="bureau_ordre_depart_action_form"/>
 
+    <!-- Form View -->
     <record id="bureau_ordre_depart_view_form" model="ir.ui.view">
         <field name="name">Registre Depart Form</field>
         <field name="model">bureau.ordre.document.depart</field>
         <field name="arch" type="xml">
             <form>
-                <group>
-                    <!-- Champ "num_depart" -->
-                    <field name="num_depart"/>
-                    
-                    <!-- Champ "date_depart" -->
-                    <field name="date_depart"/>
-                    
-                    <!-- Champ "destinataire" -->
-                    <field name="destinataire"/>
-                    
-                    <!-- Champ "objet_de_correspondance" -->
-                    <field name="objet_de_correspondance"/>
-                    
-                    <!-- Champ "piece_jointe" -->
-                    <field name="piece_jointe"/>
-                    
-                    <!-- Champ "expéditeur" -->
-                    <field name="expéditeur"/>
-                    
-                    <!-- Champ "reponse" en tant que checkbox -->
-                    <field name="reponse" widget="boolean_checkbox"/>
-                    
-                    <!-- Champ "reference_destinataire" conditionnellement désactivé -->
-                    <field name="reference_destinataire" attrs="{'readonly': [('reponse', '=', False)]}"/>
-                </group>
+                <sheet>
+                    <group>
+                        <!-- Field "num_depart" -->
+                        <field name="num_depart"/>
+                    </group>
+                    <group>
+                        <!-- Field "date_depart" -->
+                        <field name="date_depart"/>
+                    </group>
+
+                    <group>
+                        <!-- Field "destinataire" -->
+                        <field name="destinataire"/>
+                    </group>
+                    <group>
+                        <!-- Field "objet_de_correspondance" -->
+                        <field name="objet_de_correspondance"/>
+                    </group>
+                    <group>  
+                        <!-- Field "piece_jointe" -->
+                        <field name="piece_jointe"/>
+                    </group>
+                    <group>
+                        <!-- Field "expéditeur" -->
+                        <field name="expéditeur"/>
+                    </group>
+                    <group>
+                        <!-- Field "reponse" as a checkbox -->
+                        <field name="reponse" widget="boolean_checkbox"/>
+                    </group>
+                    <group>
+                        <!-- Field "reference_destinataire" conditionally disabled -->
+                        <!-- <field name="reference_destinataire" attrs="{'readonly': [('reponse', '=', False)]}"/> -->
+                        <field name="reference_destinataire" attrs="{'required': [('reponse', '=', True)], 'invisible': [('reponse', '=', False)]}"/>
+                    </group>
+                </sheet>
             </form>
         </field>
     </record>
-    <!-- Tree (list) View -->
+
+    <!-- Tree (List) View -->
     <record id="bureau_ordre_depart_view_list" model="ir.ui.view">
         <field name="name">bureau ordre registre list</field>
         <field name="model">bureau.ordre.document.depart</field>
@@ -62,6 +78,30 @@
                 <field name="reponse"/>
                 <field name="reference_destinataire"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="bureau_ordre_depart_view_search" model="ir.ui.view">
+        <field name="name">bureau ordre registre search</field>
+        <field name="model">bureau.ordre.document.depart</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="num_depart" string="Numéro de départ"/>
+                <field name="date_depart" string="Date de départ"/>
+                <field name="destinataire" string="Destinataire"/>
+                <field name="objet_de_correspondance" string="Objet de correspondance"/>
+                <field name="piece_jointe" string="Nombre de pièces jointes"/>
+                <field name="expéditeur" string="Expéditeur"/>
+                <field name="reponse" string="Réponse"/>
+                <field name="reference_destinataire" string="Référence du destinataire"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Numéro de départ" name="num_depart" context="{'group_by': 'num_depart'}"/>
+                    <filter string="Date de départ" name="date_depart" context="{'group_by': 'date_depart'}"/>
+                    <filter string="Destinataire" name="destinataire" context="{'group_by': 'destinataire'}"/>
+                    <filter string="Réponse" name="reponse" context="{'group_by': 'reponse'}"/>
+                </group>
+            </search>
         </field>
     </record>
 </odoo>

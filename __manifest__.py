@@ -4,6 +4,7 @@
     [
         'views/arrivee.xml',
         'views/depart.xml',
-        'views/service.xml'
+        'views/service.xml',
+        'views/document.xml'
     ]
 }

@@ -31,7 +31,7 @@ class BureauOrdreDocumentDepart(models.Model):
     objet_de_correspondance = fields.Char(string='Objet de correspondance', required=True)
     piece_jointe = fields.Integer(string='Nombre de pièces jointes', required=True)
     reponse = fields.Boolean(string='Réponse', required=False)
-    reference_destinataire= fields.Char(string='Référence du destinataire', required=False)
+    reference_destinataire= fields.Char(string='Référence du destinataire', required=True)
 
     name = fields.Char(string='Nom', compute='_compute_name', store=True)
 
