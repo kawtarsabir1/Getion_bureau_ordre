@@ -5,6 +5,7 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bureau.ordre.document.arrivee</field>
         <field name="view_mode">tree,form</field>
+
     </record>
 
     <menuitem id="ordre_main_menu"
@@ -27,6 +28,12 @@
                     <button name="action_en_traitment" string="passer au traitement" type="object" attrs="{'invisible': [('etat', '!=', 'recu')]}"/>
                     <button name="action_finish" string="terminer" type="object" attrs="{'invisible': [('etat', '!=', 'en_cours')]}"/>
                     <button name="action_modifier" string="modifier" type="object"  attrs="{'invisible': [('etat', '!=', 'termine')]}"/>
+
+                    <!-- <button string="Archive Record" type="object" name="action_archive" attrs="{'invisible': [('etat', '!=', 'termine')]}">
+                        <field name="active" widget="boolean_button" options="{&quot;terminology&quot;:&quot;archive&quot;}"/>
+                    </button> -->
+                    <button string="Archive" type="object" name="action_custom_archive" attrs="{'invisible': [('etat', '!=', 'termine')]}"/>
+
                     <!-- ne s'affiche que apre termine --><!-- not working -->
                     <field name="etat" widget="statusbar" nolabel="1" />
                 <!-- options="{'clickable':'1'}" states="en_cours"-->
@@ -34,8 +41,9 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="num_arrivee"/>
+                            <field name="num_arrivee"  readonly="1"/>
                             <field name="date_arrivee" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
+
                         </group>
                         <group>
                             <field name="destinataire" attrs="{'readonly': [('etat', '=', 'termine')]}"/>
@@ -56,7 +64,9 @@
                         </group>
                         <!-- <field name="pdf_file" filename="your_filename.pdf" widget="pdf" attrs="{'invisible': [('etat', '=', 'recu')], 'readonly': [('etat', '=', 'termine')]}" /> -->
                         <group>
-                            <field name="pdf_file"/>
+                            <!-- <field name="pdf_file" attrs="{'readonly': [('etat', '=', 'termine')]}","{'invisible': [('etat', '=', 'recu')]}"/> -->
+                        <field name="pdf_file" attrs="{'required': [('etat', '=', 'en_cours')], 'readonly': [('etat', '=', 'termine')], 'invisible': [('etat', '=', 'recu')]}" />
+
                         </group>
                     </group>
                 </sheet>
@@ -69,7 +79,7 @@
         <field name="name">Registre Arrivée list</field>
         <field name="model">bureau.ordre.document.arrivee</field>
         <field name="arch" type="xml">
-            <tree decoration-success="etat=='termine'" decoration-info="etat=='recu'" decoration-warning="etat=='en_cours'">
+            <tree decoration-success="etat=='termine'" decoration-info="etat=='recu'" decoration-warning="etat=='en_cours'" delete="0">
                 <field name="num_arrivee"/>
                 <field name="date_arrivee"/>
                 <field name="destinataire"/>
@@ -86,7 +96,8 @@
                         optional="show"
                         />
                 <!-- not working -->
-                <field name="pdf_file" filename="your_filename.pdf" widget="pdf" options="{'readonly': True}" attrs="{'invisible': [('etat', '!=', 'en_cours'),('etat', '!=', 'termine')]}"/>
+                <field name="pdf_file" filename="your_filename.pdf" widget="pdf" options="{'readonly': True}" attrs="{'invisible': [('etat', '!=', 'en_cours'),('etat', '!=', 'termine')]}" />
+                
 
             </tree>
         </field>
@@ -107,6 +118,8 @@
             <filter string="state recu" name="filter_state_recu" domain="[('etat', '=', 'recu')]"/>
             <filter string="state en cours" name="filter_state_en_cours" domain="[('etat', '=', 'en_cours')]"/>
             <filter string="state terminé" name="filter_termine" domain="[('etat', '=', 'termine')]"/>
+            <filter string="Archived" name="archived" domain="[('etat','=','aarchived')]"/>
+
             <group expand="0" string="Group By">
                 <filter string="Group by Date Arrivée" name="group_by_date_arrivee" context="{'group_by':'date_arrivee'}"/>
             </group>
