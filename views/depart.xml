@@ -47,7 +47,7 @@
                     </group>
                     <group>
                         <!-- Field "expéditeur" -->
-                        <field name="expéditeur"/>
+                        <field name="expediteur"/>
                     </group>
                     <group>
                         <!-- Field "reponse" as a checkbox -->
@@ -56,9 +56,14 @@
                     <group>
                         <!-- Field "reference_destinataire" conditionally disabled -->
                         <field name="reference_destinataire" attrs="{'required': [('reponse', '=', True)], 'invisible': [('reponse', '=', False)]}"/>
-                        
+                        <field name="active" invisible="1"/>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>
@@ -74,7 +79,7 @@
                 <field name="destinataire"/>
                 <field name="objet_de_correspondance"/>
                 <field name="piece_jointe"/>
-                <field name="expéditeur"/>
+                <field name="expediteur"/>
                 <field name="reponse"/>
                 <field name="reference_destinataire"/>
             </tree>
@@ -91,13 +96,15 @@
                 <field name="destinataire" string="Destinataire"/>
                 <field name="objet_de_correspondance" string="Objet de correspondance"/>
                 <field name="piece_jointe" string="Nombre de pièces jointes"/>
-                <field name="expéditeur" string="Expéditeur"/>
+                <field name="expediteur" string="Expéditeur"/>
                 <field name="reponse" string="Réponse"/>
                 <field name="reference_destinataire" string="Référence du destinataire"/>
 
-                <!-- <filter string="state recu" name="filter_state_recu" domain="[('etat', '=', 'recu')]"/>
-                <filter string="state en cours" name="filter_state_en_cours" domain="[('etat', '=', 'en_cours')]"/>
-                <filter string="state terminé" name="filter_termine" domain="[('etat', '=', 'termine')]"/> -->
+                
+                
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
 
                 <group expand="0" string="Group By">
                     <filter string="Date de départ" name="date_depart" context="{'group_by': 'date_depart'}"/>

@@ -3,21 +3,14 @@ import datetime
 
 class BureauOrdreDocumentDepart(models.Model):
     _name = 'bureau.ordre.document.depart'
+    _inherit= ["mail.thread", 'mail.activity.mixin']
     _description = 'Gestion des Documents de Départ au Bureau d\'Ordre'
 
     destinataire = fields.Many2one('bureau.ordre.service', string='Destinataire', required=True)
-    expéditeur = fields.Many2one('bureau.ordre.service', string='Expéditeur', required=True)
+    expediteur = fields.Many2one('bureau.ordre.service', string='Expéditeur', required=True)
     
-    reference_destinataire = fields.Many2one('bureau.ordre.document.arrivee', string='Référence du destinataire', required=True)
-    # Use a related field to display the value from the related model
-    reference_expediteur = fields.Char(related='reference_destinataire.reference_expediteur', string='Référence de l\'expéditeur', readonly=True, store=True)
+    active= fields.Boolean(string="Active", default=True)# for archived filter
 
-    
-
-    @api.model
-    def create(self, values):
-        # Your custom logic for creating a new record
-        return super(BureauOrdreDocumentDepart, self).create(values)
     
     @api.model
     def _get_default_num_depart(self):
@@ -38,11 +31,11 @@ class BureauOrdreDocumentDepart(models.Model):
         return f"{next_id:02}/{current_year}"
 
     num_depart = fields.Char(string='Numéro de départ', required=True, default=_get_default_num_depart, unique=True, readonly=True)
-    date_depart = fields.Date(string='Date de départ', default=fields.Date.today())
-    objet_de_correspondance = fields.Char(string='Objet de correspondance', required=True)
-    piece_jointe = fields.Integer(string='Nombre de pièces jointes', required=True)
-    reponse = fields.Boolean(string='Réponse', required=False)
-    # reference_destinataire= fields.Char(string='Référence du destinataire', required=True)
+    date_depart = fields.Date(string='Date de départ', default=fields.Date.today(), tracking=True, required=True)
+    objet_de_correspondance = fields.Char(string='Objet de correspondance', tracking=True, required=True)
+    piece_jointe = fields.Integer(string='Nombre de pièces jointes', tracking=True, required=True)
+    reponse = fields.Boolean(string='Réponse', tracking=True, required=False)
+    reference_destinataire= fields.Char(string='Référence du destinataire', tracking=True, required=False)
 
     name = fields.Char(string='Nom', compute='_compute_name', store=True)
 

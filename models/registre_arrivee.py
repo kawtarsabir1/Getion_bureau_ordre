@@ -3,11 +3,12 @@ import datetime
 
 class BureauOrdreDocumentArrivee(models.Model):
     _name = 'bureau.ordre.document.arrivee'
+    _inherit= ["mail.thread", 'mail.activity.mixin']
     _description = 'Gestion des Documents Arrivées au Bureau d\'Ordre'
 
-    destinataire = fields.Many2one('bureau.ordre.service', string='Destinataire', required=True)
-    expediteur = fields.Many2one('bureau.ordre.service', string='Expéditeur', required=True)
-    pdf_file = fields.Many2one('bureau.ordre.document', string='PDF File', required=True)
+    destinataire = fields.Many2one('bureau.ordre.service', string='Destinataire', tracking=True, required=True)
+    expediteur = fields.Many2one('bureau.ordre.service', string='Expéditeur', tracking=True, required=True)
+    pdf_file = fields.Many2one('bureau.ordre.document', string='PDF File', tracking=True, required=True)
 
     @api.model
     def _get_default_num_arrivee(self):
@@ -27,21 +28,21 @@ class BureauOrdreDocumentArrivee(models.Model):
         # Combinez l'ID et l'année pour créer le format souhaité
         return f"{next_id:02}/{current_year}"
 
-    num_arrivee = fields.Char(string='Numéro de Document arrive', default=_get_default_num_arrivee, required=True ,readonly="1")
-    date_arrivee = fields.Date(string='Date de départ', default=fields.Date.today())
+    num_arrivee = fields.Char(string='Numéro de Document arrive', default=_get_default_num_arrivee, tracking=True, required=True ,readonly="1")
+    date_arrivee = fields.Date(string='Date de départ', tracking=True, default=fields.Date.today())
     # destinataire = fields.Char(string='Destinataire', required=True)
-    objet_de_correspondance = fields.Char(string='Objet de correspondance', required=True)
-    piece_jointe = fields.Integer(string='Nombre de pièces jointes', required=True)
+    objet_de_correspondance = fields.Char(string='Objet de correspondance', tracking=True, required=True)
+    piece_jointe = fields.Integer(string='Nombre de pièces jointes', tracking=True, required=True)
     # expediteur = fields.Char(string='Expéditeur', required=True)
-    reference_expediteur= fields.Char(string='Référence de l\'expediteur', required=False)
+    reference_expediteur= fields.Char(string='Référence de l\'expediteur', tracking=True, required=False)
     etat = fields.Selection([
         ('recu', 'Reçu'),
         ('en_cours', 'En cours de traitement'),
         ('termine', 'Terminé'),
-    ], string='État', default='recu')
+    ], string='État', tracking=True, default='recu')
 
     # pdf_file = fields.Binary(string='PDF File', attachment=True, help='Upload a PDF file')
-    demande = fields.Boolean(string='Demande')
+    demande = fields.Boolean(string='Demande', tracking=True,)
 
 
     def action_en_traitment(self):

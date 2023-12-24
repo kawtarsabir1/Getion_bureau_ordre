@@ -6,5 +6,9 @@
         'views/depart.xml',
         'views/service.xml',
         'views/document.xml'
+    ],
+    'depends': [
+        'mail'
     ]
+
 }
