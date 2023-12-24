@@ -6,6 +6,7 @@ class BureauOrdreService(models.Model):
 
     nom = fields.Char(string='Nom du service', required=True)
     image = fields.Binary(string='Image')
+    date_release = fields.Date(default=fields.Date.today(), required=True)
 
     # Ajoutez cette méthode pour spécifier comment Odoo doit afficher les enregistrements
     def name_get(self):

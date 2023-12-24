@@ -9,8 +9,8 @@
     </record>
 
     <!-- Main Menu -->
-    <menuitem id="ordre_main_menu" name="Bureau ordre">
-        <!-- Submenu -->
+    <!-- <menuitem id="ordre_main_menu" name="Bureau ordre">
+        
         <menuitem id="bureau_ordre_registre_menu"
                 name="Registre">
             <menuitem id="bureau_ordre_depart_menu"
@@ -20,7 +20,36 @@
             name="Registre Arrivée"
             action="bureau_ordre_action_form"/>
         </menuitem>
+        <menuitem id="bureau_ordre_service_menu"
+            name="Service"
+            action="bureau_ordre_service_action_form"/>
+        <menuitem id="bureau_ordre_document_menu"
+            name="Document"
+            action="bureau_ordre_document_action_form"/>
+    </menuitem> -->
+
+    <menuitem id="ordre_main_menu" name="Bureau ordre">
+    <!-- Submenu -->
+    <menuitem id="bureau_ordre_registre_menu" name="Registre">
+        <menuitem id="bureau_ordre_depart_menu"
+                name="Registre Départ"
+                action="bureau_ordre_depart_action_form"
+                sequence="10"/>
+        <menuitem id="bureau_ordre_menu"
+                name="Registre Arrivée"
+                action="bureau_ordre_action_form"
+                sequence="20"/>
     </menuitem>
+    <menuitem id="bureau_ordre_service_menu"
+            name="Service"
+            action="bureau_ordre_service_action_form"
+            sequence="30"/>
+    <menuitem id="bureau_ordre_document_menu"
+            name="Document"
+            action="bureau_ordre_document_action_form"
+            sequence="40"/>
+</menuitem>
+
 
 
     <!-- Form View -->
@@ -29,46 +58,58 @@
         <field name="model">bureau.ordre.document.depart</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_en_traitment" string="passer au traitement" type="object" attrs="{'invisible': [('etat', '!=', 'recu')]}"/>
+                    <button name="action_finish" string="terminer" type="object" attrs="{'invisible': [('etat', '!=', 'en_cours')]}"/>
+                    <button name="action_modifier" string="modifier" type="object"  attrs="{'invisible': [('etat', '!=', 'termine')]}"/>
+                    <button string="Archive" type="object" name="action_custom_archive" attrs="{'invisible': [('etat', '!=', 'termine')]}"/>
+                    <field name="etat" widget="statusbar" nolabel="1" />
+                </header>
                 <sheet>
                     <group>
                         <!-- Field "num_depart" -->
-                        <field name="num_depart"/>
+                        <field name="num_depart" readonly="1"/>
                     </group>
                     <group>
                         <!-- Field "date_depart" -->
-                        <field name="date_depart"/>
+                        <field name="date_depart" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
 
                     <group>
                         <!-- Field "destinataire" -->
-                        <field name="destinataire"/>
+                        <field name="destinataire" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
                     <group>
                         <!-- Field "objet_de_correspondance" -->
-                        <field name="objet_de_correspondance"/>
+                        <field name="objet_de_correspondance" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
                     <group>  
                         <!-- Field "piece_jointe" -->
-                        <field name="piece_jointe"/>
+                        <field name="piece_jointe" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
                     <group>
                         <!-- Field "expéditeur" -->
-                        <field name="expediteur"/>
+                        <field name="expediteur" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
                     <group>
                         <!-- Field "reponse" as a checkbox -->
-                        <field name="reponse" widget="boolean_checkbox"/>
+                        <field name="reponse" widget="boolean_checkbox" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
                     <group>
                         <!-- Field "reference_destinataire" conditionally disabled -->
                         <field name="reference_destinataire" attrs="{'required': [('reponse', '=', True)], 'invisible': [('reponse', '=', False)]}"/>
-                        
+                    </group>
+                    <!-- better to make it invisible if terminer -->
+                    <group>
+                        <!-- <field name="pdf_file" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/> -->
+                        <field name="pdf_file" attrs="{'required': [('etat', '=', 'en_cours')], 'readonly': [('etat', '=', 'termine'), ('etat', '=', 'aarchived')], 'invisible': [('etat', '=', 'recu')]}" />
+
                     </group>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
+                    <field name="message_follower_ids" />
                     <field name="activity_ids"/>
-                    <field name="message_ids"/>
+                    <field name="message_ids" />
                 </div>
             </form>
         </field>
@@ -79,7 +120,7 @@
         <field name="name">bureau ordre registre list</field>
         <field name="model">bureau.ordre.document.depart</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree decoration-success="etat=='termine'" decoration-info="etat=='recu'" decoration-warning="etat=='en_cours'" delete="0">
                 <field name="num_depart"/>
                 <field name="date_depart"/>
                 <field name="destinataire"/>
@@ -88,6 +129,14 @@
                 <field name="expediteur"/>
                 <field name="reponse"/>
                 <field name="reference_destinataire"/>
+                <field name="etat"
+                        decoration-success="etat=='termine'"
+                        decoration-info="etat=='recu'"
+                        decoration-warning="etat=='en_cours'"
+                        widget="badge"
+                        optional="show"
+                        />
+                <field name="pdf_file" filename="your_filename.pdf" widget="pdf" options="{'readonly': True}" attrs="{'invisible': [('etat', '!=', 'en_cours'),('etat', '!=', 'termine')]}"/>
             </tree>
         </field>
     </record>
@@ -107,10 +156,11 @@
                 <field name="reference_destinataire" string="Référence du destinataire"/>
 
                 
-                
-                
-
-
+                <filter string="state recu" name="filter_state_recu" domain="[('etat', '=', 'recu')]"/>
+                <filter string="state en cours" name="filter_state_en_cours" domain="[('etat', '=', 'en_cours')]"/>
+                <filter string="state terminé" name="filter_termine" domain="[('etat', '=', 'termine')]"/>
+                <filter string="Archived" name="archived" domain="[('etat','=','aarchived')]"/>
+                <filter string="Date de départ" name="date_depart"/>
                 <group expand="0" string="Group By">
                     <filter string="Date de départ" name="date_depart" context="{'group_by': 'date_depart'}"/>
                     <filter string="Destinataire" name="destinataire" context="{'group_by': 'destinataire'}"/>

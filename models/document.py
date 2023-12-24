@@ -6,7 +6,7 @@ class BureauOrdreDocument(models.Model):
 
     nom = fields.Char(string='Nom du document', required=True)
     pdf_file = fields.Binary(string='PDF File', attachment=True, help='Upload a PDF file', widget='binary')
-    
+    date_release = fields.Date(default=fields.Date.today(), required=True)
 
     # Ajoutez cette méthode pour spécifier comment Odoo doit afficher les enregistrements
     def name_get(self):

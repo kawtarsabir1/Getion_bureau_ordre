@@ -9,10 +9,10 @@
 
     <menuitem id="ordre_main_menu" name="Bureau ordre"/>
     
-    <menuitem id="bureau_ordre_service_menu"
+    <!-- <menuitem id="bureau_ordre_service_menu"
             name="Service"
             parent="ordre_main_menu"
-            action="bureau_ordre_service_action_form"/>
+            action="bureau_ordre_service_action_form"/> -->
 
     <record id="bureau_ordre_service_view_form" model="ir.ui.view">
         <field name="name">Service Form</field>
@@ -27,6 +27,10 @@
                     <group>
                         <!-- Champ "nom" -->
                         <field name="nom"/>
+                        
+                    </group>
+                    <group>
+                        <field name="date_release" string="Le: "/>
                     </group>
                 </sheet>
             </form>
@@ -40,6 +44,7 @@
             <tree>
                 <field name="image" widget="image" options="{'size': (50, 50)}"/>
                 <field name="nom"/>
+                <field name="date_release" string="Date de release"/>
             </tree>
         </field>
     </record>
@@ -52,8 +57,10 @@
             <search>
                 <group expand="0" string="Group By">
                     <filter string="Nom" name="nom" context="{'group_by': 'nom'}"/>
+                    <filter string="Date de release" name="date_release" context="{'group_by': 'date_release'}"/>
                 </group>
                 <field name="nom"/>
+                <filter string="Date de release" name="date_release"/>
             </search>
         </field>
     </record>
