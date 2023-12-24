@@ -9,7 +9,7 @@ class BureauOrdreDocumentDepart(models.Model):
     destinataire = fields.Many2one('bureau.ordre.service', string='Destinataire', required=True)
     expediteur = fields.Many2one('bureau.ordre.service', string='Expéditeur', required=True)
     
-    active= fields.Boolean(string="Active", default=True)# for archived filter
+    
 
     
     @api.model
