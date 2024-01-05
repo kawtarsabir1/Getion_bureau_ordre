@@ -14,7 +14,7 @@ class BureauOrdreDocumentArrivee(models.Model):
     
     destinataire = fields.Many2one('bureau.ordre.service', string='Destinataire', tracking=True, required=True)
     expediteur = fields.Many2one('bureau.ordre.service', string='Expéditeur', tracking=True, required=True)
-    pdf_file = fields.Many2one('bureau.ordre.document', string='Attachment', tracking=True, required=True)
+    pdf_file = fields.Many2one('bureau.ordre.document', string='Attachment', tracking=True)
 
     @api.model
     def create(self, vals):
@@ -47,11 +47,9 @@ class BureauOrdreDocumentArrivee(models.Model):
 
         return next_number
 
-    date_arrivee = fields.Date(string='Date de départ', default=fields.Date.today(), tracking=True)
-    # destinataire = fields.Char(string='Destinataire', required=True)
+    date_arrivee = fields.Date(string='Date d\'arrivée', default=fields.Date.today(), tracking=True)
     objet_de_correspondance = fields.Char(string='Objet de correspondance', tracking=True, required=True)
     piece_jointe = fields.Integer(string='Nombre de pièces jointes', tracking=True, required=True)
-    # expediteur = fields.Char(string='Expéditeur', required=True)
     reference_expediteur= fields.Char(string='Référence de l\'expediteur', tracking=True, required=False)
     etat = fields.Selection([
         ('recu', 'Reçu'),
@@ -61,21 +59,17 @@ class BureauOrdreDocumentArrivee(models.Model):
     ], string='État', tracking=True, default='recu')
 
     
-
-    # pdf_file = fields.Binary(string='PDF File', attachment=True, help='Upload a PDF file')
     demande = fields.Boolean(string='Demande', tracking=True)
 
 
     def action_custom_archive(self):
         for rec in self:
             rec.write({'etat': 'aarchived'})
-        # self.write({'active': False})
     
 
 
     def action_en_traitment(self):
         for rec in self:
-            # rec.etat='en_cours'
             rec.write({'etat': 'en_cours'})
     
     def action_finish(self):

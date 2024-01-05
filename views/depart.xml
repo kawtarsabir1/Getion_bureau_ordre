@@ -8,26 +8,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <!-- Main Menu -->
-    <!-- <menuitem id="ordre_main_menu" name="Bureau ordre">
-        
-        <menuitem id="bureau_ordre_registre_menu"
-                name="Registre">
-            <menuitem id="bureau_ordre_depart_menu"
-                    name="Registre Départ"
-                    action="bureau_ordre_depart_action_form"/>
-            <menuitem id="bureau_ordre_menu"
-            name="Registre Arrivée"
-            action="bureau_ordre_action_form"/>
-        </menuitem>
-        <menuitem id="bureau_ordre_service_menu"
-            name="Service"
-            action="bureau_ordre_service_action_form"/>
-        <menuitem id="bureau_ordre_document_menu"
-            name="Document"
-            action="bureau_ordre_document_action_form"/>
-    </menuitem> -->
-
     <menuitem id="ordre_main_menu" name="Bureau ordre">
     <!-- Submenu -->
     <menuitem id="bureau_ordre_registre_menu" name="Registre">
@@ -96,12 +76,12 @@
                         <field name="reponse" widget="boolean_checkbox" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
                     <group>
-                        <!-- Field "reference_destinataire" conditionally disabled -->
-                        <field name="reference_destinataire" attrs="{'required': [('reponse', '=', True)], 'invisible': [('reponse', '=', False)]}"/>
+                        
+                        <field name="reference_destinataire" attrs="{'required': [('reponse', '=', True)], 'invisible': [('reponse', '=', False)], 'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/>
                     </group>
-                    <!-- better to make it invisible if terminer -->
+                    
                     <group>
-                        <!-- <field name="pdf_file" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}"/> -->
+                        
                         <field name="pdf_file" attrs="{'required': [('etat', '=', 'en_cours')], 'readonly': [('etat', '=', 'termine'), ('etat', '=', 'aarchived')], 'invisible': [('etat', '=', 'recu')]}" />
 
                     </group>

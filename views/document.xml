@@ -9,10 +9,6 @@
 
     <menuitem id="ordre_main_menu" name="Bureau ordre"/>
     
-    <!-- <menuitem id="bureau_ordre_document_menu"
-            name="Document"
-            parent="ordre_main_menu"
-            action="bureau_ordre_document_action_form"/> -->
 
     <record id="bureau_ordre_document_view_form" model="ir.ui.view">
         <field name="name">Document Form</field>

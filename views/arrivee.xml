@@ -16,21 +16,11 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <!-- <button name="action_en_traitment" string="passer au traitement" type="object"/>
-                    <button name="action_finish" string="terminer" type="object" states="en_cours"/>
-                    <button name="action_modifier" string="modifier" type="object" states="termine"/> -->
                     <button name="action_en_traitment" string="passer au traitement" type="object" attrs="{'invisible': [('etat', '!=', 'recu')]}"/>
                     <button name="action_finish" string="terminer" type="object" attrs="{'invisible': [('etat', '!=', 'en_cours')]}"/>
                     <button name="action_modifier" string="modifier" type="object"  attrs="{'invisible': [('etat', '!=', 'termine')]}"/>
-
-                    <!-- <button string="Archive Record" type="object" name="action_archive" attrs="{'invisible': [('etat', '!=', 'termine')]}">
-                        <field name="active" widget="boolean_button" options="{&quot;terminology&quot;:&quot;archive&quot;}"/>
-                    </button> -->
                     <button string="Archive" type="object" name="action_custom_archive" attrs="{'invisible': [('etat', '!=', 'termine')]}"/>
-
-                    <!-- ne s'affiche que apre termine --><!-- not working -->
                     <field name="etat" widget="statusbar" nolabel="1" />
-                <!-- options="{'clickable':'1'}" states="en_cours"-->
                 </header>
                 <sheet>
                     <group>
@@ -56,9 +46,9 @@
                                 <field name="reference_expediteur" attrs="{'required': [('demande', '=', True)], 'invisible': [('demande', '=', False)]}"/>
                             </group>
                         </group>
-                        <!-- <field name="pdf_file" filename="your_filename.pdf" widget="pdf" attrs="{'invisible': [('etat', '=', 'recu')], 'readonly': [('etat', '=', 'termine')]}" /> -->
+                        
                         <group>
-                            <!-- <field name="pdf_file" attrs="{'readonly': [('etat', 'in', ['termine', 'aarchived'])]}","{'invisible': [('etat', '=', 'recu')]}"/> -->
+                            
                         <field name="pdf_file" attrs="{'required': [('etat', '=', 'en_cours')], 'readonly': [('etat', '=', 'termine'), ('etat', '=', 'aarchived')], 'invisible': [('etat', '=', 'recu')]}" />
 
                         </group>
@@ -86,7 +76,7 @@
                 <field name="piece_jointe"/>
                 <field name="expediteur"/>
                 <field name="reference_expediteur"/>
-                <!-- not working -->
+                
                 <field name="etat"
                         decoration-success="etat=='termine'"
                         decoration-info="etat=='recu'"
@@ -94,7 +84,7 @@
                         widget="badge"
                         optional="show"
                         />
-                <!-- not working -->
+                
                 <field name="pdf_file" filename="your_filename.pdf" widget="pdf" options="{'readonly': True}" attrs="{'invisible': [('etat', '!=', 'en_cours'),('etat', '!=', 'termine')]}" />
                 
 
@@ -118,7 +108,7 @@
             <filter string="state en cours" name="filter_state_en_cours" domain="[('etat', '=', 'en_cours')]"/>
             <filter string="state terminé" name="filter_termine" domain="[('etat', '=', 'termine')]"/>
             <filter string="Archived" name="archived" domain="[('etat','=','aarchived')]"/>
-            <filter string="Date de départ" name="date_depart"/>
+            <filter string="Date d'arrivée" name="date_arrivee"/>
             <group expand="0" string="Group By">
                 <filter string="Group by Date Arrivée" name="group_by_date_arrivee" context="{'group_by':'date_arrivee'}"/>
             </group>
